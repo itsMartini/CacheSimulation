@@ -31,11 +31,24 @@ class ReqComp
 	}
 };
 
+class PriorityCalculator
+{
+	public:
+		
+		
+};
 
-class Prefetcher {
+
+class Prefetcher
+{
   private:
 	std::priority_queue<TReqPair, std::vector<TReqPair>, ReqComp> _reqQueue;
+	
 	std::vector<Request> _arrivals;
+	std::vector<u_int32_t> _offsets;
+
+	std::vector<u_int32_t> GetAddresses();
+	std::vector<ReqPriority> GetPriorities();
 
   public:
 	Prefetcher();
