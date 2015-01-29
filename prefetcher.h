@@ -1,12 +1,45 @@
+/*
+ *
+ * File: prefetcher.h
+ * Author: Sat Garcia (sat@cs)
+ * Description: Header file for prefetcher implementation
+ *
+ */
+
 #ifndef PREFETCHER_H
 #define PREFETCHER_H
 
 #include <sys/types.h>
+#include "mem-sim.h"
+#include <queue>
+#include <utility>
+#include <vector>
 
-struct Request;
+struct ReqPriority
+{
+	u_int32_t priority;
+};
+
+typedef std::pair<Request, ReqPriority> TReqPair;
+
+class ReqComp
+{
+	public:
+	bool operator() (const TReqPair& lhs, const TReqPair& rhs) const
+	{
+		return (lhs.second.priority < rhs.second.priority);
+	}
+};
+
 
 class Prefetcher {
+  private:
+	std::priority_queue<TReqPair, std::vector<TReqPair>, ReqComp> _reqQueue;
+	std::vector<Request> _arrivals;
+
   public:
+	Prefetcher();
+
 	// should return true if a request is ready for this cycle
 	bool hasRequest(u_int32_t cycle);
 
