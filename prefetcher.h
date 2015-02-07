@@ -14,6 +14,7 @@
 #include <queue>
 #include <utility>
 #include <vector>
+#include <map>
 
 struct ReqPriority
 {
@@ -27,28 +28,25 @@ class ReqComp
 	public:
 	bool operator() (const TReqPair& lhs, const TReqPair& rhs) const
 	{
-		return (lhs.second.priority < rhs.second.priority);
+		return (lhs.second.priority > rhs.second.priority);
 	}
 };
-
-class PriorityCalculator
-{
-	public:
-		
-		
-};
-
 
 class Prefetcher
 {
   private:
-	std::priority_queue<TReqPair, std::vector<TReqPair>, ReqComp> _reqQueue;
+	// std::priority_queue<TReqPair, std::vector<TReqPair>, ReqComp> _reqQueue;
+	std::vector<TReqPair> _reqQueue;
+	std::map<u_int32_t,u_int32_t> _temporalMap;
 	
 	std::vector<Request> _arrivals;
-	std::vector<u_int32_t> _offsets;
+	std::vector<int> _offsets;
 
-	std::vector<u_int32_t> GetAddresses();
+	std::vector<TReqPair> GetSpatialRequests();
+	std::vector<TReqPair> GetTemporalRequests();
 	std::vector<ReqPriority> GetPriorities();
+
+	void insert_request( TReqPair newReq );
 
   public:
 	Prefetcher();
