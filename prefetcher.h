@@ -40,7 +40,7 @@ class Prefetcher
 	std::map<u_int32_t,u_int32_t> _temporalMap;
 	
 	std::vector<Request> _arrivals;
-	std::vector<int> _offsets;
+	std::vector<short> _offsets;
 
 	std::vector<TReqPair> GetSpatialRequests();
 	std::vector<TReqPair> GetTemporalRequests();
