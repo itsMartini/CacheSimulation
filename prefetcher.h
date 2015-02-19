@@ -18,7 +18,7 @@
 
 struct ReqPriority
 {
-	u_int32_t priority;
+	char priority;
 	u_int32_t policy;
 };
 
@@ -36,21 +36,21 @@ class ReqComp
 class Prefetcher
 {
   private:
-	std::vector<TReqPair> _reqQueue;		// (100+64
-	std::map<u_int32_t,u_int32_t> _temporalMap;
-	std::vector<TReqPair> _recentRequests;
+	std::vector<TReqPair> _reqQueue;		// (4+1.25)*500=2625
+	std::map<u_int32_t,u_int32_t> _temporalMap;	// 4*50=200
+	std::vector<TReqPair> _recentRequests;		// 5.25
 	
-	std::vector<Request> _arrivals;
-	std::vector<u_int32_t> _periodicRequests;
-	std::vector<short> _offsets;
+	std::vector<Request> _arrivals;			// 4*20=80
+	std::vector<u_int32_t> _periodicRequests;	// 4*10=40
+	std::vector<short> _offsets;			// 2*2=4
+
+	std::vector<char> _policyBasePriorities;	// 4
 
 	std::vector<TReqPair> GetOffsetRequests();
 	std::vector<TReqPair> GetTemporalRequests();
 	std::vector<TReqPair> GetLookAheadRequests(Request req);
 	std::vector<TReqPair> GetPeriodicRequests();
 	std::vector<ReqPriority> GetPriorities();
-
-	std::vector<u_int32_t> _policyBasePriorities;
 
 	void insertRequest( TReqPair newReq );
 	void updatePriorities( u_int32_t policy );

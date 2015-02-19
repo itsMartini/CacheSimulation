@@ -45,6 +45,7 @@ void Prefetcher::completeRequest(u_int32_t cycle)
 	_reqQueue.pop_back();
 	if(_reqQueue.size() > 10)
 	{
+		cout << _reqQueue.size() << "\n";
 		_reqQueue.erase(_reqQueue.begin());
 		// _reqQueue.clear();
 	}
@@ -276,6 +277,8 @@ void Prefetcher::cpuRequest(Request req)
 			{
 				if(_policyBasePriorities[_recentRequests[i].second.policy]>2)
 				{
+					// if( _policyBasePriorities[_recentRequests[i].second.policy] > 100 ) {
+					cout << (int)_policyBasePriorities[_recentRequests[i].second.policy] << "\n"; // }
 					_policyBasePriorities[_recentRequests[i].second.policy]-=2;
 					// updatePriorities(_recentRequests[i].second.policy);
 				}
