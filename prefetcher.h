@@ -19,6 +19,7 @@
 struct ReqPriority
 {
 	u_int32_t priority;
+	u_int32_t policy;
 };
 
 typedef std::pair<Request, ReqPriority> TReqPair;
@@ -35,18 +36,24 @@ class ReqComp
 class Prefetcher
 {
   private:
-	// std::priority_queue<TReqPair, std::vector<TReqPair>, ReqComp> _reqQueue;
-	std::vector<TReqPair> _reqQueue;
+	std::vector<TReqPair> _reqQueue;		// (100+64
 	std::map<u_int32_t,u_int32_t> _temporalMap;
+	std::vector<TReqPair> _recentRequests;
 	
 	std::vector<Request> _arrivals;
+	std::vector<u_int32_t> _periodicRequests;
 	std::vector<short> _offsets;
 
-	std::vector<TReqPair> GetSpatialRequests();
+	std::vector<TReqPair> GetOffsetRequests();
 	std::vector<TReqPair> GetTemporalRequests();
+	std::vector<TReqPair> GetLookAheadRequests(Request req);
+	std::vector<TReqPair> GetPeriodicRequests();
 	std::vector<ReqPriority> GetPriorities();
 
-	void insert_request( TReqPair newReq );
+	std::vector<u_int32_t> _policyBasePriorities;
+
+	void insertRequest( TReqPair newReq );
+	void updatePriorities( u_int32_t policy );
 
   public:
 	Prefetcher();
