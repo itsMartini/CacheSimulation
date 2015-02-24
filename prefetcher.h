@@ -28,14 +28,27 @@ class ReqComp
 class Prefetcher
 {
   private:
+        // total state saved: 2625+200+5.25+80+40+4+4 = 2958.25 bytes
+
+        // 500 max elements * pair(4 bytes addr, [1 byte priority, 2 bit policy])
 	std::vector<TReqPair> _reqQueue;		// (4+1.25)*500=2625
+
+        // 50 max elements * 4 byte address counts
 	std::map<u_int32_t,u_int32_t> _temporalMap;	// 4*50=200
+
+        // 1 max element * pair(4 bytes addr, [1 byte priority, 2 bit policy])
 	std::vector<TReqPair> _recentRequests;		// 5.25
 	
-	std::vector<Request> _arrivals;			// 4*20=80
+	// 20 max elements * 4 byte address
+        std::vector<Request> _arrivals;			// 4*20=80
+
+        // 10 max elements * 4 byte address
 	std::vector<u_int32_t> _periodicRequests;	// 4*10=40
+
+        // 2 max elements * 2 byte offsets
 	std::vector<short> _offsets;			// 2*2=4
 
+        // 4 elements * 1 byte priority
 	std::vector<char> _policyBasePriorities;	// 4
 
 	std::vector<TReqPair> GetOffsetRequests();
@@ -45,7 +58,6 @@ class Prefetcher
 	std::vector<ReqPriority> GetPriorities();
 
 	void insertRequest( TReqPair newReq );
-	void updatePriorities( u_int32_t policy );
 
   public:
 	Prefetcher();
