@@ -1,11 +1,3 @@
-/*
- *
- * File: prefetcher.h
- * Author: Sat Garcia (sat@cs)
- * Description: Header file for prefetcher implementation
- *
- */
-
 #ifndef PREFETCHER_H
 #define PREFETCHER_H
 
