@@ -6,12 +6,14 @@
 
 using namespace std;
 
+const u_int32_t PRIORITY_MOD = 4;
+
 Prefetcher::Prefetcher()
 {
   _policyBasePriorities.push_back(65);
-  _policyBasePriorities.push_back(31);
-  _policyBasePriorities.push_back(100);
-  _policyBasePriorities.push_back(80);
+  _policyBasePriorities.push_back(32);
+  _policyBasePriorities.push_back(97);
+  _policyBasePriorities.push_back(82);
 }
 
 bool Prefetcher::hasRequest(u_int32_t cycle)
@@ -210,9 +212,9 @@ void Prefetcher::cpuRequest(Request req)
 	{
 	  if(req.addr==_recentRequests[i].first.addr)
 	    {
-	      if(_policyBasePriorities[_recentRequests[i].second.policy]>2)
+	      if(_policyBasePriorities[_recentRequests[i].second.policy]>PRIORITY_MOD)
 		{
-		  _policyBasePriorities[_recentRequests[i].second.policy]-=2;
+		  _policyBasePriorities[_recentRequests[i].second.policy]-=PRIORITY_MOD;
 		}
 	    }
 	}
